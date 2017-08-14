@@ -1,9 +1,24 @@
 // Request allows us to make http calls
 const request = require('request');
+const yargs = require('yargs');
 
+const argv = yargs
+    .options({
+        a: {
+            demand: true,
+            alias: 'address',
+            describe: 'Address to fetch weather for',
+            string: true //this tells it to always parse the address as a string 
+        }
+    })
+    .help()
+    .alias('help', 'h')
+    .argv;
+var encodedAddress = encodeURIComponent(argv.address);
+   
 request({
     // The url is the http call to be made
-    url: 'https://maps.googleapis.com/maps/api/geocode/json?address=Old%20College,%20South%20Bridge,%20Edinburgh%20EH8%209YL,%20UK',
+    url: `https://maps.googleapis.com/maps/api/geocode/json?address= ${encodedAddress}`,
     //url: 'https://mapsgleapis.com/maps/api/geocode/json?address=Old%20College,%20South%20Bridge,%20Edinburgh%20EH8%209YL,%20UK',   //To test error parameter on request callback 
     // this just lets request know that it is infact in json format
     // allows for it to load in object form 
