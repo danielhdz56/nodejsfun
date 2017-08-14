@@ -16,17 +16,22 @@ var saveNotes = (notes) => { // This writes to the file notes-data.json, a strin
 };
 
 var addNote = (title, body) => {
-    var notes = fetchNotes();
-    var note = {
+    var notes = fetchNotes(); //fetches all notes from notes-data.json
+    var note = { // creats an object taking in the title and body that are taken as arguments from terminal
         title,
         body
     };
     //takes the note as an argument and checks if there is one already with that title
     var duplicateNotes = notes.filter((note) => note.title === title);
+        //note that this syntax is an abbreviated version of:
+        // var duplicateNotes = notes.filter((note) => {
+                //return note.title === title;
+        // });
+        //this is possible because there is only one return
     if (duplicateNotes.length === 0) { //if the array is empty than it will create a note
-        notes.push(note);
-        saveNotes(notes);
-        return note;
+        notes.push(note); //gets added to the notes object
+        saveNotes(notes); //stringifies notes object and writes it to notes-data.json
+        return note; //this return statement is called back in app.js, will be undefined if not run
     }  
 };
 
@@ -35,7 +40,10 @@ var getAll = () => {
 };
 
 var getNote = (title) => {
-    console.log('Getting note: ', title);
+    var notes = fetchNotes();
+    //takes the note as an argument and checks if there is one already with that title
+    var filteredNotes = notes.filter((note) => note.title === title);
+    return filteredNotes[0]; // If there is no match then it'll be an empty array, which will run our else statement
 };
 
 var removeNote = (title) => {
@@ -44,14 +52,21 @@ var removeNote = (title) => {
     //fiter notes, removing the one with title of argument
     var filteredNotes = notes.filter((note) => note.title !== title); //By using !==, filteredNotes will get loaded with titles that don't match the title
     //save new notes array
-    saveNotes(filteredNotes);
+    saveNotes(filteredNotes); //This allows only the filtered notes to be written into notes-data.json
     //return true if a note was removed
-    return notes.length !== filteredNotes.length;    
+    return notes.length !== filteredNotes.length; 
 };
 
-module.exports = {
+var logNote = (note) => {
+    console.log('-----');
+    console.log(`Title: ${note.title}`);
+    console.log(`Body: ${note.body}`);
+}
+
+module.exports = { //how we can call the above functions in app.js
     addNote,
     getAll,
     getNote,
-    removeNote
+    removeNote,
+    logNote
 };
