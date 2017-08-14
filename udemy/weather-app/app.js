@@ -9,5 +9,5 @@ request({
     json: true
 }, (error, response, body) => { //this is the callback 
     // printing out the request
-    console.log(body);
+    console.log(JSON.stringify(body, undefined, 2)); //This pretty prints the object by using stringify
 });
