@@ -1,5 +1,3 @@
-console.log('Starting app.js');
-
 //packages from node or npm
 const fs = require('fs');
 const _ = require('lodash');
@@ -10,8 +8,6 @@ const notes = require('./notes.js');
 
 const argv = yargs.argv;
 var command = argv._[0];
-console.log('Command: ', command);
-console.log('Yargs', argv);
 
 if(command === 'add') {
     var note = notes.addNote(argv.title, argv.body); //Pass in the arguments --title and --body from terminal
@@ -22,7 +18,9 @@ if(command === 'add') {
         console.log('Note title taken');
     }
 } else if (command === 'list') {
-    notes.getAll();
+    var allNotes = notes.getAll();
+    console.log(`Printing ${allNotes.length} note(s).`);
+    allNotes.forEach((note) => notes.logNote(note)); // Iterate over each object and run the logNote function
 } else if (command === 'read') {
     var note = notes.getNote(argv.title);
     if (note){
