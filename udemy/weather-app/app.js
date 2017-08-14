@@ -36,7 +36,16 @@ request({
     // The error parameter consist of the errors that occur when the request is made
     //console.log(JSON.stringify(error, undefined, 2));
     
-    console.log(`Address: ${body.results[0].formatted_address}`);
-    console.log(`Latitude: ${body.results[0].geometry.location.lat}`);
-    console.log(`Longitude: ${body.results[0].geometry.location.lng}`);
+    //Machine Errors, like being unable to connect to a network
+    //Server Errors, like invalid address
+    if (error) {
+        console.log('Unable to connect to Google Servers');
+    } else if (body.status === 'ZERO_RESULTS') {
+        console.log('Unable to find that address');
+    } else if (body.status === 'OK') {
+        console.log(`Address: ${body.results[0].formatted_address}`);
+        console.log(`Latitude: ${body.results[0].geometry.location.lat}`);
+        console.log(`Longitude: ${body.results[0].geometry.location.lng}`);
+    }
+    
 });
