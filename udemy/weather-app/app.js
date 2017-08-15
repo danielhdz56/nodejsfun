@@ -15,7 +15,6 @@ const argv = yargs //customization to input from terminal
     .alias('help', 'h')
     .argv;
 
-
 geocode.geocodeAddress(argv.address, (errorMessage, results) => {
     if (errorMessage) {
         console.log(errorMessage);
