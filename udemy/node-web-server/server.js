@@ -1,6 +1,10 @@
 const express = require('express');
 
 var app = express();
+//Adding middleware to use express in a different way
+//It is like a third party add on
+//This basically sets us a static directory 
+app.use(express.static(__dirname + '/public'));
 
 //allows us to set up a handler for our http request
 app.get('/', (req, res) => { //req will contain our headers, res will be what we send back
@@ -26,4 +30,6 @@ app.get('/bad', (req, res) => {
     });
 })
 //this binds our application to a port on our machine
-app.listen(3000);
+app.listen(3000, () => {
+    console.log('Server is up on port 3000')
+});
