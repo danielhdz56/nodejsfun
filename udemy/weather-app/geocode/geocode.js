@@ -1,7 +1,7 @@
 // Request allows us to make http calls
 const request = require('request');
 
-var geocodeAddress = (address) => {
+var geocodeAddress = (address, callback) => {
     var encodedAddress = encodeURIComponent(address);
     request({
         // The url is the http call to be made
@@ -26,15 +26,16 @@ var geocodeAddress = (address) => {
         //Machine Errors, like being unable to connect to a network
         //Server Errors, like invalid address
         if (error) {
-            console.log('Unable to connect to Google Servers');
+            callback('Unable to connect to Google Servers');
         } else if (body.status === 'ZERO_RESULTS') {
-            console.log('Unable to find that address');
+            callback('Unable to find that address');
         } else if (body.status === 'OK') {
-            console.log(`Address: ${body.results[0].formatted_address}`);
-            console.log(`Latitude: ${body.results[0].geometry.location.lat}`);
-            console.log(`Longitude: ${body.results[0].geometry.location.lng}`);
+            callback(undefined, { // We set it to undefined so it doesn't run the if statement for the errorMessage
+                address: body.results[0].formatted_address,
+                latitude: body.results[0].geometry.location.lat,
+                longitude: body.results[0].geometry.location.lng
+            });
         }
     })
 };
-
 module.exports.geocodeAddress = geocodeAddress;

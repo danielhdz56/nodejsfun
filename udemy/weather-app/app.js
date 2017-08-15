@@ -16,5 +16,10 @@ const argv = yargs //customization to input from terminal
     .argv;
 
 
-geocode.geocodeAddress(argv.address);
-//7,20
+geocode.geocodeAddress(argv.address, (errorMessage, results) => {
+    if(errorMessage){
+        console.log(errorMessage);
+    } else {
+        console.log(JSON.stringify(results, undefined, 2)); //undefined skips the filter function that we don't need
+    }
+});
