@@ -3,6 +3,7 @@ const hbs = require('hbs'); //espress view engine for handlebars
 
 var app = express();
 
+hbs.registerPartials(__dirname + '/views/partials');
 //This lets us set up some various express related configurations
 //we pass a key value pair
 //the key is view engine
@@ -14,13 +15,20 @@ app.set('view engine', 'hbs');
 //This basically sets us a static directory 
 app.use(express.static(__dirname + '/public'));
 
+hbs.registerHelper('getCurrentYear', () => {
+    return new Date().getFullYear()
+});
+
+hbs.registerHelper('screamIt', (text) => {
+    return text.toUpperCase();
+});
+
 //allows us to set up a handler for our http request
 app.get('/', (req, res) => { //req will contain our headers, res will be what we send back
     // res.send('<h1>Hello Express!</h1>');
     res.render('home.hbs', {
         pageTitle: 'Home Page',
         welcomeMessage: 'Handlebars are awesome',
-        currentYear: new Date().getFullYear()
     });
 });
 
@@ -28,7 +36,6 @@ app.get('/about', (req, res) => {
     //this allows us to render any of the templates i have set up with my current view engine
     res.render('about.hbs', {
         pageTitle: 'About Page',
-        currentYear: new Date().getFullYear()
     });
 });
 
