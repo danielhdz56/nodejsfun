@@ -2,6 +2,7 @@ const express = require('express');
 const hbs = require('hbs'); //espress view engine for handlebars
 const fs = require('fs');
 
+const port = process.env.PORT || 3000;
 var app = express();
 
 //This lets use reuse code from handlebars
@@ -68,6 +69,6 @@ app.get('/bad', (req, res) => {
     });
 })
 //this binds our application to a port on our machine
-app.listen(3000, () => {
-    console.log('Server is up on port 3000')
+app.listen(port, () => {
+    console.log(`Server is up on port ${port}`)
 });
